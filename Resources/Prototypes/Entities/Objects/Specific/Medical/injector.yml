@@ -1,0 +1,37 @@
+- type: entity
+  id: MedicalInjector
+  parent: BaseItem
+  name: injector
+  description: "Advanced tool to draw blood and inject reagents. Faster than syringe, cheaper then hyposprays so it experienced recent popularity boom."
+  components:
+    - type: Sprite
+      sprite: Objects/Specific/Chemistry/injector.rsi
+      netsync: false
+      layers:
+        - state: injector1
+          map: [ "enum.SolutionContainerLayers.Fill" ]
+          visible: false
+        - state: injector
+          map: ["enum.SolutionContainerLayers.Base"]
+    - type: Item
+      sprite: Objects/Specific/Chemistry/injector.rsi
+      state: injector
+      size: 7
+    - type: SolutionContainerManager
+      solutions:
+        injector:
+          maxVol: 30
+    - type: Injector
+      injectOnly: false
+      fixedDelay: 2
+      maxTransferAmount: 30
+      onUseStartSound:
+        path: /Audio/Items/click.ogg
+      onUseFinishSound:
+        path: /Audio/Items/hypospray.ogg
+    - type: Spillable
+      solution: injector
+    - type: Appearance
+    - type: SolutionContainerVisuals
+      maxFillLevels: 3
+      fillBaseName: injector

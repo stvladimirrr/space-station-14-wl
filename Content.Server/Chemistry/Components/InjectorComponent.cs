@@ -1,6 +1,7 @@
 using System.Threading;
 using Content.Shared.Chemistry.Components;
 using Content.Shared.FixedPoint;
+using Robust.Shared.Audio;
 
 namespace Content.Server.Chemistry.Components
 {
@@ -42,7 +43,7 @@ namespace Content.Server.Chemistry.Components
         /// </summary>
         [DataField("maxTransferAmount")]
         [ViewVariables(VVAccess.ReadWrite)]
-        public FixedPoint2 MaximumTransferAmount { get; set; } = FixedPoint2.New(50);
+        public FixedPoint2 MaximumTransferAmount { get; set; } = FixedPoint2.New(15);
 
         /// <summary>
         /// Amount to inject or draw on each usage. If the injector is inject only, it will
@@ -64,10 +65,25 @@ namespace Content.Server.Chemistry.Components
         public float Delay = 5;
 
         /// <summary>
+        /// Fixed injection delay (in seconds) when target is a mob. If less or equals zero, normal delaying mechanism is used
+        /// </summary>
+        [ViewVariables(VVAccess.ReadWrite)]
+        [DataField("fixedDelay")]
+        public float FixedDelay = 0;
+
+        /// <summary>
         ///     Token for interrupting a do-after action (e.g., injection another player). If not null, implies
         ///     component is currently "in use".
         /// </summary>
         public CancellationTokenSource? CancelToken;
+
+        [ViewVariables]
+        [DataField("onUseStartSound")]
+        public SoundSpecifier? OnUseStartSound;
+
+        [ViewVariables]
+        [DataField("onUseFinishSound")]
+        public SoundSpecifier? OnUseFinishSound;
 
         [DataField("toggleState")] private InjectorToggleMode _toggleState;
 

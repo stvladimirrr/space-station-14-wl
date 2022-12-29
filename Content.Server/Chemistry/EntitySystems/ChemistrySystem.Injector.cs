@@ -27,7 +27,7 @@ public sealed partial class ChemistrySystem
     /// <summary>
     ///     Default transfer amounts for the set-transfer verb.
     /// </summary>
-    public static readonly List<int> TransferAmounts = new() {1, 5, 10, 15};
+    public static readonly List<int> TransferAmounts = new() {1, 5, 10, 15, 20, 30};
     private void InitializeInjector()
     {
         SubscribeLocalEvent<InjectorComponent, GetVerbsEvent<AlternativeVerb>>(AddSetTransferVerbs);
@@ -93,6 +93,10 @@ public sealed partial class ChemistrySystem
             if (_solutions.TryGetInjectableSolution(target, out var injectableSolution))
             {
                 TryInject(component, target, injectableSolution, user, false);
+                if (component.OnUseFinishSound != null)
+                {
+                    _audio.Play(_audio.GetSound(component.OnUseFinishSound), Filter.Pvs(user), user, false);
+                }
             }
             else if (_solutions.TryGetRefillableSolution(target, out var refillableSolution))
             {
@@ -101,6 +105,10 @@ public sealed partial class ChemistrySystem
             else if (TryComp<BloodstreamComponent>(target, out var bloodstream))
             {
                 TryInjectIntoBloodstream(component, bloodstream, user);
+                if (component.OnUseFinishSound != null)
+                {
+                    _audio.Play(_audio.GetSound(component.OnUseFinishSound), Filter.Pvs(user), user, false);
+                }
             }
             else
             {
@@ -239,11 +247,19 @@ public sealed partial class ChemistrySystem
 
         if (!_solutions.TryGetSolution(component.Owner, InjectorComponent.SolutionName, out var solution))
             return;
+        var actualDelay = 0f;
 
-        var actualDelay = MathF.Max(component.Delay, 1f);
+        if (component.FixedDelay <= 0)
+        {
+            actualDelay = MathF.Max(component.Delay, 1f);
 
-        // Injections take 1 second longer per additional 5u
-        actualDelay += (float) component.TransferAmount / component.Delay - 1;
+            // Injections take 1 second longer per additional 5u
+            actualDelay += (float) component.TransferAmount / component.Delay - 1;
+        }
+        else
+        {
+            actualDelay = component.FixedDelay;
+        }
 
         if (user != target)
         {
@@ -282,6 +298,11 @@ public sealed partial class ChemistrySystem
         }
 
         component.CancelToken = new CancellationTokenSource();
+
+        if (component.OnUseStartSound != null)
+        {
+            _audio.Play(_audio.GetSound(component.OnUseStartSound), Filter.Pvs(component.Owner), component.Owner, true);
+        }
 
         _doAfter.DoAfter(new DoAfterEventArgs(user, actualDelay, component.CancelToken.Token, target)
         {

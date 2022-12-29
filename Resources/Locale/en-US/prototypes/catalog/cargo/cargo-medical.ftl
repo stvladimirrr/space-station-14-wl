@@ -21,3 +21,6 @@ ent-EmergencyAdvancedKit = { ent-CrateEmergencyAdvancedKit }
 
 ent-EmergencyRadiationKit = { ent-CrateEmergencyRadiationKit }
     .desc = { ent-CrateEmergencyRadiationKit.desc }
+
+ent-InjectorKit = { ent-CrateInjector }
+    .desc = { ent-CrateInjector.desc }

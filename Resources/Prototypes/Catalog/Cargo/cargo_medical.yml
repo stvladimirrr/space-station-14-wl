@@ -77,3 +77,13 @@
   cost: 2500
   category: Medical
   group: market
+
+- type: cargoProduct
+  id: InjectorKit
+  icon:
+    sprite: Objects/Specific/Chemistry/injector.rsi
+    state: injector
+  product: CrateInjector
+  cost: 5000
+  category: Medical
+  group: market

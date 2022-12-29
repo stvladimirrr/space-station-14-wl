@@ -136,3 +136,11 @@
     contents:
       - id: MedkitRadiationFilled
         amount: 4
+
+- type: entity
+  id: CrateInjector
+  parent: CrateMedical
+  components:
+    - type: StorageFill
+      contents:
+        - id: MedicalInjector
