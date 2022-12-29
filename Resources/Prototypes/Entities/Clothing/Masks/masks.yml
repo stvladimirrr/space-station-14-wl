@@ -149,6 +149,37 @@
   - type: Recyclable
 
 - type: entity
+  parent: ClothingMaskPullableBase
+  id: ClothingPanoramaMaskBreath
+  name: panorama mask
+  description: Flashlight included.
+  components:
+  - type: Sprite
+    sprite: Clothing/Mask/panoramamask.rsi
+  - type: Clothing
+    sprite: Clothing/Mask/panoramamask.rsi
+  - type: BreathMask
+  - type: IngestionBlocker
+  - type: DiseaseProtection
+    protection: 0.1
+  - type: Recyclable
+  - type: UnpoweredFlashlight
+    toggleAction:
+      name: action-name-toggle-light
+      description: action-description-toggle-light
+      icon: { sprite: Objects/Tools/flashlight.rsi, state: flashlight }
+      iconOn: Objects/Tools/flashlight.rsi/flashlight-on.png
+      event: !type:ToggleActionEvent
+  - type: PointLight
+    enabled: false
+    radius: 4.5
+    softness: 5
+    mask: /Textures/Effects/LightMasks/cone.png
+    autoRot: true
+  - type: Item
+    size: 8
+
+- type: entity
   parent: ClothingMaskBase
   id: ClothingMaskClown
   name: clown wig and mask
