@@ -57,7 +57,7 @@
   parent: BaseSoda
   desc: reagent-desc-ice-cream
   physicalDesc: reagent-physical-desc-creamy
-  flavor: soda
+  flavor: icecream
   color: "#fffbd6"
   spritePath: icecreamglass.rsi
 
